@@ -11,6 +11,8 @@ namespace PlayGroup
 		[SyncVar(hook = "FaceDirectionSync")] public Vector2 currentDirection;
 
 		public PlayerMove playerMove;
+		[Header("InteractProbe is based off current direction")]
+		public Transform interactProbe;
 
 		private void Awake()
 		{
@@ -55,6 +57,8 @@ namespace PlayGroup
 		//turning character input and sprite update for local only! (prediction)
 		public void FaceDirection(Vector2 direction)
 		{
+			//Place interact probe in facing direction
+			interactProbe.localPosition = direction * 0.7f;
 			SetDir(direction);
 		}
 

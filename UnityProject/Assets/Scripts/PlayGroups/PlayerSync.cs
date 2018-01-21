@@ -213,6 +213,12 @@ namespace PlayGroup
 				}
 
 				PlayerState state = isLocalPlayer ? predictedState : serverState;
+				if(playerMove.playerMoveInteract.somethingInPath){
+					if(Mathf.Abs(Vector3.Distance(playerMove.playerMoveInteract.positionOfObstruction,transform.localPosition)) < 1f){
+						//Something in the way
+						state.Position = Vector3Int.RoundToInt(transform.localPosition);
+					}
+				}
 				transform.localPosition = Vector3.MoveTowards(transform.localPosition, state.Position, playerMove.speed * Time.deltaTime);
 
 				//Check if we should still be displaying an ItemListTab and update it, if so.

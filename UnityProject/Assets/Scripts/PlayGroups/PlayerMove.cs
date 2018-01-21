@@ -36,6 +36,7 @@ namespace PlayGroup
 
 		private PlayerSprites playerSprites;
 		private PlayerSync playerSync;
+		public PlayerMoveInteract playerMoveInteract;
 
 		private PlayerNetworkActions pna;
 		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
@@ -217,6 +218,16 @@ namespace PlayGroup
 
 			//Is the current tile restrictive?
 			Vector3Int newPos = currentPosition + direction;
+
+			//New higher level checks on interactions based on collider positions
+			//Eventually mission critical interactions will be transitioned to be based off this component
+			if (playerMoveInteract.somethingInPath) {
+				Vector3Int comparePos = playerMoveInteract.positionOfObstruction;
+				comparePos.z = newPos.z;
+				if (comparePos == newPos) {
+					return Vector3Int.zero;
+				}
+			}
 
 			if (playerSync.pullingObject != null) {
 				if (matrix.ContainsAt(newPos, playerSync.pullingObject)) {
